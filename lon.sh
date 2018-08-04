@@ -6,15 +6,16 @@
 clear
 clear
 
-echo "                                                 "
-echo "                                                 "
-echo " _|             _|_|_|_|_|      _|      _|       "
-echo " _|             _|      _|      _|_|    _|       "
-echo " _|             _|      _|      _|  _|  _|       "
-echo " _|             _|      _|      _|    _|_|       "
-echo " _|_|_|_|_|     _|_|_|_|_|      _|      _|       "
-echo "                AUTO SCRIPT                      "
-echo "                                                 "
+echo "                                                      "
+echo "                                                      "
+echo "      _|             _|_|_|_|_|      _|      _|       "
+echo "      _|             _|      _|      _|_|    _|       "
+echo "      _|             _|      _|      _|  _|  _|       "
+echo "      _|             _|      _|      _|    _|_|       "
+echo "      _|_|_|_|_|     _|_|_|_|_|      _|      _|       "
+echo "                                                      "
+echo "                     AUTO SCRIPT                      "
+echo "                                                      "
 echo " "
 
 sleep 2
