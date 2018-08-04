@@ -40,7 +40,6 @@ echo -n "Set Virtual Hub: "
 read HUB
 echo -n "Set ${HUB} hub username: "
 read USER
-echo ""
 read -s -p "Set SE Server password: " SE_PASSWORD
 echo ""
 echo " "
