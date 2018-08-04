@@ -14,6 +14,7 @@ echo "      _|             _|      _|      _|  _|  _|       "
 echo "      _|             _|      _|      _|    _|_|       "
 echo "      _|_|_|_|_|     _|_|_|_|_|      _|      _|       "
 echo "                                                      "
+echo "                                                      "
 echo "                     AUTO SCRIPT                      "
 echo "                                                      "
 echo " "
@@ -118,6 +119,7 @@ ${TARGET}vpnserver/vpncmd localhost /SERVER /PASSWORD:${SE_PASSWORD} /CMD VpnOve
 sudo apt-get install squid
 wget https://raw.githubusercontent.com/nubmarlon/test/master/squid.conf -O /etc/squid/squid.conf
 sed -i $MYIP2 /etc/squid/squid.conf;
+service squid restart
 
 
 clear
