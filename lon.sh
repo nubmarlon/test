@@ -120,6 +120,7 @@ sed -i $MYIP2 /etc/squid/squid.conf;
 
 
 clear
+echo "========================="
 echo "Softether server configuration has been done!"
 echo " "
 echo "IP address: $MYIP"
@@ -128,3 +129,10 @@ echo "Port: 443, 992, 1194, 5555"
 echo "Username: ${USER}"
 echo "Auth: Anonymous"
 echo "Server Password: ${SE_PASSWORD}"
+echo "========================="
+echo " "
+echo "Squid Server"
+echo "IP address: $MYIP"
+echo "Port:3128, 8080, 80"
+
+
