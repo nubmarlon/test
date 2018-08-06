@@ -115,7 +115,7 @@ ${TARGET}vpnserver/vpncmd localhost /SERVER /PASSWORD:${SE_PASSWORD} /HUB:${HUB}
 ${TARGET}vpnserver/vpncmd localhost /SERVER /PASSWORD:${SE_PASSWORD} /CMD VpnOverIcmpDnsEnable /ICMP:yes /DNS:yes
 
 #install squid
-sudo apt-get install squid
+sudo apt-get -y install squid
 wget https://raw.githubusercontent.com/nubmarlon/test/master/squid.conf -O /etc/squid/squid.conf
 sed -i $MYIP2 /etc/squid/squid.conf;
 service squid restart
