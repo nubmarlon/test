@@ -46,8 +46,73 @@ echo " "
 echo "Now sit back and wait until the installation finished."
 echo " "
 
+# go to root
+cd
+
+# disable ipv6
+echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
+
+
 
 sudo apt-get -y update && sudo apt-get -y upgrade && apt-get install expect -y
+
+
+# setting port ssh
+cd
+sed -i 's/Port 22/Port 22/g' /etc/ssh/sshd_config
+sed -i '/Port 22/a Port 444' /etc/ssh/sshd_config
+service ssh restart
+
+
+# install dropbear
+apt-get -y install dropbear
+sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
+sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=3128/g' /etc/default/dropbear
+sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 143"/g' /etc/default/dropbear
+echo "/bin/false" >> /etc/shells
+echo "/usr/sbin/nologin" >> /etc/shells
+service ssh restart
+service dropbear restart
+
+
+
+#install squid
+sudo apt-get -y install squid
+wget https://raw.githubusercontent.com/nubmarlon/test/master/squid.conf -O /etc/squid/squid.conf
+sed -i $MYIP2 /etc/squid/squid.conf;
+service squid restart
+
+
+# install stunnel
+apt-get install stunnel4 -y
+cat > /etc/stunnel/stunnel.conf <<-END
+cert = /etc/stunnel/stunnel.pem
+client = no
+socket = a:SO_REUSEADDR=1
+socket = l:TCP_NODELAY=1
+socket = r:TCP_NODELAY=1
+[dropbear]
+accept = 443
+connect = 127.0.0.1:3128
+END
+
+#make certificate
+openssl genrsa -out key.pem 2048
+openssl req -new -x509 -key key.pem -out cert.pem -days 1095 \
+-subj "/C=PH/ST=Manila/L=Manila/O=None/OU=None/CN=Nubmarlon/emailAddress=None"
+cat key.pem cert.pem >> /etc/stunnel/stunnel.pem
+
+#Configure stunnel
+sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
+/etc/init.d/stunnel4 restart
+
+# finishing
+service ssh restart
+service dropbear restart
+service squid restart
+
+#Installing SE
 
 wget http://www.softether-download.com/files/softether/v4.27-9668-beta-2018.05.29-tree/Linux/SoftEther_VPN_Server/64bit_-_Intel_x64_or_AMD64/softether-vpnserver-v4.27-9668-beta-2018.05.29-linux-x64-64bit.tar.gz
 sudo tar xvzf softether-vpnserver-v4.27-9668-beta-2018.05.29-linux-x64-64bit.tar.gz
@@ -114,28 +179,22 @@ ${TARGET}vpnserver/vpncmd localhost /SERVER /PASSWORD:${SE_PASSWORD} /CMD HubDel
 ${TARGET}vpnserver/vpncmd localhost /SERVER /PASSWORD:${SE_PASSWORD} /HUB:${HUB} /CMD SecureNatEnable
 ${TARGET}vpnserver/vpncmd localhost /SERVER /PASSWORD:${SE_PASSWORD} /CMD VpnOverIcmpDnsEnable /ICMP:yes /DNS:yes
 
-#install squid
-sudo apt-get -y install squid
-wget https://raw.githubusercontent.com/nubmarlon/test/master/squid.conf -O /etc/squid/squid.conf
-sed -i $MYIP2 /etc/squid/squid.conf;
-service squid restart
 
 
-
+clear
+clear
 
 echo "========================="
 echo "Softether server configuration has been done!"
 echo " "
 echo "IP address: $MYIP"
 echo "Virtual Hub: ${HUB}"
-echo "Port: 443, 992, 1194, 5555"
 echo "Username: ${USER}"
 echo "Auth: Anonymous"
 echo "S.E. Server Password: ${SE_PASSWORD}"
 echo "========================="
 echo " "
-echo "Squid Server"
-echo "IP address: $MYIP"
-echo "Port:3128, 8080, 80"
-
-
+echo "Port OpenSSH: 22,444"
+echo "echo "Port Dropbear: 143,3128"
+echo "Port SSL: 443"
+echo "Port Squid: 8000,8080"
