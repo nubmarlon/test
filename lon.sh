@@ -46,6 +46,8 @@ echo " "
 echo "Now sit back and wait until the installation finished."
 echo " "
 
+sudo apt-get -y update && sudo apt-get -y upgrade && apt-get install expect -y
+
 
 #Installing SE
 
@@ -119,9 +121,6 @@ cd
 echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
 sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 
-
-
-sudo apt-get -y update && sudo apt-get -y upgrade && apt-get install expect -y
 
 
 # setting port ssh
