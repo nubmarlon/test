@@ -172,6 +172,16 @@ cat key.pem cert.pem >> /etc/stunnel/stunnel.pem
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 /etc/init.d/stunnel4 restart
 
+# download script
+cd /usr/bin
+wget -O menu "https://cdn.rawgit.com/nubmarlon/test/95126675/menu.sh"
+wget -O usernew "https://cdn.rawgit.com/nubmarlon/test/95126675/usernew.sh"
+
+echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
+
+chmod +x menu
+chmod +x usernew
+
 # finishing
 service ssh restart
 service dropbear restart
@@ -194,3 +204,4 @@ echo "OpenSSH  : 22, 444"
 echo "Dropbear : 143, 3128"
 echo "SSL      : 443"
 echo "Squid    : 8000, 8080"
+echo "type menu (Displays a list of available commands)"
