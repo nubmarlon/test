@@ -174,22 +174,30 @@ cat key.pem cert.pem >> /etc/stunnel/stunnel.pem
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 /etc/init.d/stunnel4 restart
 
+
+# Colored text
+apt-get -y install ruby
+gem install lolcat
+
+
 # download script
 cd /usr/bin
 wget -O menu "https://cdn.rawgit.com/nubmarlon/test/95126675/menu.sh"
 wget -O usernew "https://cdn.rawgit.com/nubmarlon/test/95126675/usernew.sh"
+wget -O member "https://cdn.rawgit.com/nubmarlon/Autoscript/42f07c70/user-list.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 
 chmod +x menu
 chmod +x usernew
+chmod +x member
 
 # finishing
 service ssh restart
 service dropbear restart
 service squid restart
-
-
+service cron restart
+service stunnel4 restart
 
 
 echo "========================="
