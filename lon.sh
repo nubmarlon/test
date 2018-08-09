@@ -46,8 +46,11 @@ echo " "
 echo "Now sit back and wait until the installation finished."
 echo " "
 
-sudo apt-get -y update && sudo apt-get -y upgrade && apt-get install expect -y
 
+
+sudo apt-get -y update && sudo apt-get -y upgrade && apt-get install expect -y
+apt-get -y install wget curl
+sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
 
 #Installing SE
 
@@ -199,6 +202,8 @@ service squid restart
 service cron restart
 service stunnel4 restart
 
+clear
+clear
 
 echo "========================="
 echo "Softether server configuration has been done!"
